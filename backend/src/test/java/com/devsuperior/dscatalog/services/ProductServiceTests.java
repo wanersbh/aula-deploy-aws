@@ -61,7 +61,7 @@ public class ProductServiceTests {
 		category = Factory.createdCategory();
 
 		// Mockar uma quando os métodos são void
-		// <CONDIÇÃO> <AÇÃO>
+		// <CONDIÇÃO> <AÇÃO> <RESULTADO>
 		Mockito.when(repository.findAll((Pageable) ArgumentMatchers.any())).thenReturn(page);
 		Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(product);
 		
