@@ -19,7 +19,7 @@ import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
 // Por exemplo: tenho um teste que deleta um elemente e outro que verifica a quantidade total de elementos
 @Transactional
 @SpringBootTest
-public class ProductServiceIT {
+class ProductServiceIT {
 
 	@Autowired
 	private ProductService service;
@@ -41,7 +41,7 @@ public class ProductServiceIT {
 	}
 
 	@Test
-	public void deleteShouldDeleteResorceWhenIdExists() {
+	void deleteShouldDeleteResorceWhenIdExists() {
 
 		service.delete(existingId);
 
@@ -49,7 +49,7 @@ public class ProductServiceIT {
 	}
 
 	@Test
-	public void deleteShouldThrowResourceNotFoundExceptionWhenIdDoesNotExists() {
+	void deleteShouldThrowResourceNotFoundExceptionWhenIdDoesNotExists() {
 
 		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
 			service.delete(nonExistingId);
@@ -57,7 +57,7 @@ public class ProductServiceIT {
 	}
 
 	@Test
-	public void findAllPagedShouldReturnPageWhenPageZeroSizeTen() {
+	void findAllPagedShouldReturnPageWhenPageZeroSizeTen() {
 
 		PageRequest pageRequest = PageRequest.of(0, 10);
 
@@ -70,7 +70,7 @@ public class ProductServiceIT {
 	}
 	
 	@Test
-	public void findAllPagedShouldReturnEmptyPageWhenPageDoesNotExist() {
+	void findAllPagedShouldReturnEmptyPageWhenPageDoesNotExist() {
 
 		PageRequest pageRequest = PageRequest.of(50, 10);
 
@@ -80,7 +80,7 @@ public class ProductServiceIT {
 	}
 	
 	@Test
-	public void findAllPagedShouldReturnSortedPageWhenSortByName() {
+	void findAllPagedShouldReturnSortedPageWhenSortByName() {
 
 		PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("name"));
 

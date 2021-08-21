@@ -33,7 +33,7 @@ import com.devsuperior.dscatalog.tests.Factory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebMvcTest(ProductResource.class)
-public class ProductResourceTests {
+class ProductResourceTests {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -80,7 +80,7 @@ public class ProductResourceTests {
 	}
 	
 	@Test
-	public void deleteShouldReturnStatusNoContentWhenIdExists() throws Exception  {
+	void deleteShouldReturnStatusNoContentWhenIdExists() throws Exception  {
 		
 		ResultActions result = mockMvc.perform(
 				delete("/products/{id}", existingId)
@@ -91,7 +91,7 @@ public class ProductResourceTests {
 	}
 	
 	@Test
-	public void deleteShouldReturnStatusNotFoundWhenDependentId() throws Exception  {
+	void deleteShouldReturnStatusNotFoundWhenDependentId() throws Exception  {
 		
 		ResultActions result = mockMvc.perform(
 				delete("/products/{id}", dependentId)
@@ -102,7 +102,7 @@ public class ProductResourceTests {
 	}
 	
 	@Test
-	public void deleteShouldReturnStatusBadRequestWhenIdDoesNotExists() throws Exception  {
+	void deleteShouldReturnStatusBadRequestWhenIdDoesNotExists() throws Exception  {
 		
 		ResultActions result = mockMvc.perform(
 				delete("/products/{id}", nonExistingId)
@@ -113,7 +113,7 @@ public class ProductResourceTests {
 	}
 	
 	@Test
-	public void insertShouldReturnStatusCreatedAndProductDTO() throws Exception {
+	void insertShouldReturnStatusCreatedAndProductDTO() throws Exception {
 		
 		String jsonBody = mapper.writeValueAsString(productDTO);
 		
@@ -132,7 +132,7 @@ public class ProductResourceTests {
 	}
 
 	@Test
-	public void updateShouldReturnProductDTOWhenIdExists() throws Exception {
+	void updateShouldReturnProductDTOWhenIdExists() throws Exception {
 		
 		String jsonBody = mapper.writeValueAsString(productDTO);
 		
@@ -151,7 +151,7 @@ public class ProductResourceTests {
 	}
 
 	@Test
-	public void updateShouldReturnNotFoundWhenIdDoesNotExists() throws Exception {
+	void updateShouldReturnNotFoundWhenIdDoesNotExists() throws Exception {
 
 		String jsonBody = mapper.writeValueAsString(productDTO);
 		
@@ -167,14 +167,14 @@ public class ProductResourceTests {
 	}
 
 	@Test
-	public void findAllShouldReturnPage() throws Exception {
+	void findAllShouldReturnPage() throws Exception {
 		ResultActions result = mockMvc.perform(get("/products").accept(MediaType.APPLICATION_JSON));
 
 		result.andExpect(status().isOk());
 	}
 
 	@Test
-	public void findByIdShouldReturnProductDTOWhenIdExists() throws Exception {
+	void findByIdShouldReturnProductDTOWhenIdExists() throws Exception {
 		ResultActions result = mockMvc.perform(get("/products/{id}", existingId).accept(MediaType.APPLICATION_JSON));
 
 		result.andExpect(status().isOk());
@@ -185,7 +185,7 @@ public class ProductResourceTests {
 	}
 
 	@Test
-	public void findByIdShouldReturnNotFoundWhenIdDoesNotExists() throws Exception {
+	void findByIdShouldReturnNotFoundWhenIdDoesNotExists() throws Exception {
 		ResultActions result = mockMvc.perform(get("/products/{id}", nonExistingId).accept(MediaType.APPLICATION_JSON));
 
 		result.andExpect(status().isNotFound());

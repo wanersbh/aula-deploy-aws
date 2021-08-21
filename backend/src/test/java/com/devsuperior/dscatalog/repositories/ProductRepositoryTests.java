@@ -13,7 +13,7 @@ import com.devsuperior.dscatalog.entities.Product;
 import com.devsuperior.dscatalog.tests.Factory;
 
 @DataJpaTest
-public class ProductRepositoryTests {
+class ProductRepositoryTests {
 
 	@Autowired
 	private ProductRepository repository;
@@ -31,7 +31,7 @@ public class ProductRepositoryTests {
 	}
 	
 	@Test
-	public void findByIdShouldReturnNonEmptyOptionalProductWhenIdExists() {
+	void findByIdShouldReturnNonEmptyOptionalProductWhenIdExists() {
 
 		// Act: ação desejada
 		Optional<Product> productOpt = repository.findById(existingId);
@@ -41,7 +41,7 @@ public class ProductRepositoryTests {
 	}
 	
 	@Test
-	public void findByIdShouldRetunrEmptyOptionalWhenIdDoesNotExist() {
+	void findByIdShouldRetunrEmptyOptionalWhenIdDoesNotExist() {
 
 		// Act: ação desejada
 		Optional<Product> productOpt = repository.findById(nonExistingId);
@@ -51,7 +51,7 @@ public class ProductRepositoryTests {
 	}
 	
 	@Test
-	public void saveShouldPersistWithAutoIncrementtWhenIdIsNull() {
+	void saveShouldPersistWithAutoIncrementtWhenIdIsNull() {
 		
 		//Arrange: Prepara os objetos
 		Product product = Factory.createdProduct();
@@ -66,7 +66,7 @@ public class ProductRepositoryTests {
 	}
 
 	@Test
-	public void deleteShouldDeleteObjectWhenIdExists() {
+	void deleteShouldDeleteObjectWhenIdExists() {
 
 		// Act: ação do teste
 		repository.deleteById(existingId);
@@ -77,7 +77,7 @@ public class ProductRepositoryTests {
 	}
 
 	@Test
-	public void deleteShouldThrowEmptyResultDataAccessExceptionWhenIdDoesNotExists() {
+	void deleteShouldThrowEmptyResultDataAccessExceptionWhenIdDoesNotExists() {
 
 		// Assertions: verificar
 		Assertions.assertThrows(EmptyResultDataAccessException.class, () -> {

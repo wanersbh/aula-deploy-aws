@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class ProductResourceIT {
+class ProductResourceIT {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -43,7 +43,7 @@ public class ProductResourceIT {
 	}
 	
 	@Test
-	public void findAllShouldReturnSortedPageWhenSortByName() throws Exception {
+	void findAllShouldReturnSortedPageWhenSortByName() throws Exception {
 		
 		ResultActions result = mockMvc.perform(get("/products?page=0&size=12&sort=name,asc")
 				.accept(MediaType.APPLICATION_JSON));
@@ -58,7 +58,7 @@ public class ProductResourceIT {
 	}
 	
 	@Test
-	public void updateShouldReturnProductDTOWhenIdExists() throws Exception {
+	void updateShouldReturnProductDTOWhenIdExists() throws Exception {
 
 		ProductDTO productDTO = Factory.createdProductDTO();
 		String jsonBody = mapper.writeValueAsString(productDTO);
@@ -82,7 +82,7 @@ public class ProductResourceIT {
 	}
 	
 	@Test
-	public void updateShouldReturnNotFoundWhenIdDoesNotExists() throws Exception {
+	void updateShouldReturnNotFoundWhenIdDoesNotExists() throws Exception {
 
 		ProductDTO productDTO = Factory.createdProductDTO();
 		String jsonBody = mapper.writeValueAsString(productDTO);

@@ -31,7 +31,7 @@ import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
 import com.devsuperior.dscatalog.tests.Factory;
 
 @ExtendWith(SpringExtension.class)
-public class ProductServiceTests {
+class ProductServiceTests {
 
 	@InjectMocks
 	private ProductService service;
@@ -82,7 +82,7 @@ public class ProductServiceTests {
 	}
 
 	@Test
-	public void findByIdShouldReturnProductDTOWhenIdExists() {
+	void findByIdShouldReturnProductDTOWhenIdExists() {
 
 		// Act
 		ProductDTO result = service.findById(existingId);
@@ -95,7 +95,7 @@ public class ProductServiceTests {
 	}
 
 	@Test
-	public void findByIdShouldThrowResourceNotFoundExceptionWhenIdDoesNotExist() {
+	void findByIdShouldThrowResourceNotFoundExceptionWhenIdDoesNotExist() {
 
 		// Assertion: o resultado esperado.
 		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
@@ -105,7 +105,7 @@ public class ProductServiceTests {
 	}
 
 	@Test
-	public void updateShouldReturnProductDTOWhenIdExist() {
+	void updateShouldReturnProductDTOWhenIdExist() {
 
 		// Act
 		ProductDTO result = service.update(Long.valueOf(existingId), productDTO);
@@ -115,7 +115,7 @@ public class ProductServiceTests {
 	}
 
 	@Test
-	public void updateShouldThrowResourceNotFoundExceptionWhenIdDoesNotExist() {
+	void updateShouldThrowResourceNotFoundExceptionWhenIdDoesNotExist() {
 
 		// Assertion: o resultado esperado.
 		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
@@ -125,7 +125,7 @@ public class ProductServiceTests {
 	}
 
 	@Test
-	public void findAllPagedShouldReturnPage() {
+	void findAllPagedShouldReturnPage() {
 
 		// Arrage: prepara os objetos
 		Pageable pageable = PageRequest.of(0, 10);
@@ -140,7 +140,7 @@ public class ProductServiceTests {
 	}
 
 	@Test
-	public void deleteShouldDoNothingWhenIdExists() {
+	void deleteShouldDoNothingWhenIdExists() {
 
 		Assertions.assertDoesNotThrow(() -> {
 			service.delete(existingId);
@@ -150,7 +150,7 @@ public class ProductServiceTests {
 	}
 
 	@Test
-	public void deleteShouldThrowResourceNotFoundExceptionWhenIdDoesNotExist() {
+	void deleteShouldThrowResourceNotFoundExceptionWhenIdDoesNotExist() {
 
 		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
 			service.delete(nonExistingId);
@@ -160,7 +160,7 @@ public class ProductServiceTests {
 	}
 
 	@Test
-	public void deleteShouldThrowDataBaseExceptionWhenIdDoesNotExist() {
+	void deleteShouldThrowDataBaseExceptionWhenIdDoesNotExist() {
 
 		Assertions.assertThrows(DataBaseException.class, () -> {
 			service.delete(dependentId);

@@ -39,19 +39,19 @@ public class ProductResource {
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
-		ProductDTO ProductDTO = service.findById(id);
+		ProductDTO productDTO = service.findById(id);
 		
-		return ResponseEntity.ok().body(ProductDTO);
+		return ResponseEntity.ok().body(productDTO);
 	}
 	
 	@PostMapping
 	public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO dto) {
-		ProductDTO ProductDTO = service.insert(dto);
+		ProductDTO productDTO = service.insert(dto);
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(ProductDTO.getId()).toUri();
+				.buildAndExpand(productDTO.getId()).toUri();
 		
-		return ResponseEntity.created(uri).body(ProductDTO);
+		return ResponseEntity.created(uri).body(productDTO);
 	}
 	
 	@PutMapping(value = "/{id}")
