@@ -20,7 +20,7 @@ private static final long serialVersionUID = 1L;
 	
 	private Instant date;
 	
-	Set<CategoryDTO> categories = new HashSet<>();
+	private Set<CategoryDTO> categories = new HashSet<>();
 
 	public ProductDTO() {
 	}
