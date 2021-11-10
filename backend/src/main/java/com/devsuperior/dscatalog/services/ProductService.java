@@ -1,5 +1,8 @@
 package com.devsuperior.dscatalog.services;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +35,11 @@ public class ProductService {
 	//Anotação para envolver toda operação em uma transação
 	//A Propriedade readOnly = true é para evitar um look na base de dados, pq nesse caso somente é uma consulta.
 	@Transactional(readOnly = true)
-	public Page<ProductDTO> findAllPaged(Pageable pageable) {
+	public Page<ProductDTO> findAllPaged(Long categoryId, String name, Pageable pageable) {
 
-		Page<Product> list = repository.findAll(pageable);
+		List<Category> categories = (categoryId == 0) ? null : Arrays.asList(categoryRepository.getOne(categoryId));
+		
+		Page<Product> list = repository.find(categories, name, pageable);
 
 		return list.map(x -> new ProductDTO(x));
 	}

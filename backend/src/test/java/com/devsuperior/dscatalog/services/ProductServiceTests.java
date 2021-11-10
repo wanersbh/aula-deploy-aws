@@ -131,7 +131,7 @@ class ProductServiceTests {
 		Pageable pageable = PageRequest.of(0, 10);
 
 		// Act: ação desejada
-		Page<ProductDTO> result = service.findAllPaged(pageable);
+		Page<ProductDTO> result = service.findAllPaged(0L, pageable);
 
 		// Assertion: o resultado esperado.
 		Assertions.assertNotNull(result);
