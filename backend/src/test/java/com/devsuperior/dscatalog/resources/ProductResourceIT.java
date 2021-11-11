@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.devsuperior.dscatalog.dto.ProductDTO;
 import com.devsuperior.dscatalog.tests.Factory;
+import com.devsuperior.dscatalog.tests.TokenUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
@@ -30,9 +31,14 @@ class ProductResourceIT {
 	@Autowired
 	private ObjectMapper mapper;
 	
+	@Autowired
+	private TokenUtil tokenUtil;
+	
 	private Long existingId;
 	private Long nonExistingId;
 	private Long countTotalProducts;
+	private String adminUsername;
+	private String adminPassword;
 	
 	
 	@BeforeEach
@@ -40,7 +46,10 @@ class ProductResourceIT {
 		existingId = 1L;
 		nonExistingId = 1000L;
 		countTotalProducts = 25L;
+		adminUsername = "maria@gmail.com";
+		adminPassword = "123456";
 	}
+	
 	
 	@Test
 	void findAllShouldReturnSortedPageWhenSortByName() throws Exception {
@@ -59,6 +68,8 @@ class ProductResourceIT {
 	
 	@Test
 	void updateShouldReturnProductDTOWhenIdExists() throws Exception {
+		
+		String accessToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
 
 		ProductDTO productDTO = Factory.createdProductDTO();
 		String jsonBody = mapper.writeValueAsString(productDTO);
@@ -69,6 +80,7 @@ class ProductResourceIT {
 		
 		ResultActions result = mockMvc.perform(
 				put("/products/{id}", existingId)
+				.header("Authorization", "Bearer " + accessToken)
 				.content(jsonBody)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
@@ -83,6 +95,8 @@ class ProductResourceIT {
 	
 	@Test
 	void updateShouldReturnNotFoundWhenIdDoesNotExists() throws Exception {
+		
+		String accessToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
 
 		ProductDTO productDTO = Factory.createdProductDTO();
 		String jsonBody = mapper.writeValueAsString(productDTO);
@@ -90,6 +104,7 @@ class ProductResourceIT {
 		
 		ResultActions result = mockMvc.perform(
 				put("/products/{id}", nonExistingId)
+				.header("Authorization", "Bearer " + accessToken)
 				.content(jsonBody)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)

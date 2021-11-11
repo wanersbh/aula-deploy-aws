@@ -5,11 +5,12 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
+import static org.mockito.ArgumentMatchers.any;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -62,11 +63,13 @@ class ProductServiceTests {
 
 		// Mockar uma quando os métodos são void
 		// <CONDIÇÃO> <AÇÃO> <RESULTADO>
-		Mockito.when(repository.findAll((Pageable) ArgumentMatchers.any())).thenReturn(page);
-		Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(product);
+		Mockito.when(repository.findAll((Pageable) any())).thenReturn(page);
+		Mockito.when(repository.save(any())).thenReturn(product);
 		
 		Mockito.when(repository.findById(existingId)).thenReturn(Optional.of(product));
 		Mockito.when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
+		
+		Mockito.when(repository.find(any(), any(), any() )).thenReturn(page);
 		
 		Mockito.when(repository.getOne(existingId)).thenReturn(product);
 		Mockito.when(repository.getOne(nonExistingId)).thenThrow(EntityNotFoundException.class);
@@ -131,12 +134,10 @@ class ProductServiceTests {
 		Pageable pageable = PageRequest.of(0, 10);
 
 		// Act: ação desejada
-		Page<ProductDTO> result = service.findAllPaged(0L, pageable);
+		Page<ProductDTO> result = service.findAllPaged(0L,"", pageable);
 
 		// Assertion: o resultado esperado.
 		Assertions.assertNotNull(result);
-		// times() é opcional
-		Mockito.verify(repository, Mockito.times(1)).findAll(pageable);
 	}
 
 	@Test

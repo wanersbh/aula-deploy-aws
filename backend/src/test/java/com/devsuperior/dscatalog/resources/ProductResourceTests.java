@@ -17,7 +17,8 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -30,9 +31,11 @@ import com.devsuperior.dscatalog.services.ProductService;
 import com.devsuperior.dscatalog.services.exceptions.DataBaseException;
 import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
 import com.devsuperior.dscatalog.tests.Factory;
+import com.devsuperior.dscatalog.tests.TokenUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebMvcTest(ProductResource.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class ProductResourceTests {
 
 	@Autowired
@@ -45,12 +48,18 @@ class ProductResourceTests {
 	// mockar algum bean do sistema @WebMvcTest @SpringBootTest
 	@MockBean
 	private ProductService service;
+	
+	@Autowired
+	private TokenUtil tokenUtil;
 
 	private Long existingId;
 	private Long nonExistingId;
 	private Long dependentId;
 	private Page<ProductDTO> page;
 	private ProductDTO productDTO;
+	private String adminUsername;
+	private String adminPassword;
+	private String accessToken;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -58,13 +67,17 @@ class ProductResourceTests {
 		existingId = 1234L;
 		nonExistingId = 4321L;
 		dependentId = 1111L;
+		adminUsername = "maria@gmail.com";
+		adminPassword = "123456";
+		
+		accessToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
 		
 
 		productDTO = Factory.createdProductDTO();
 
 		page = new PageImpl<>(List.of(productDTO));
 
-		when(service.findAllPaged(0L,  null, any())).thenReturn(page);
+		when(service.findAllPaged(any(),  any(), any())).thenReturn(page);
 
 		when(service.findById(existingId)).thenReturn(productDTO);
 		when(service.findById(nonExistingId)).thenThrow(ResourceNotFoundException.class);
@@ -84,6 +97,7 @@ class ProductResourceTests {
 		
 		ResultActions result = mockMvc.perform(
 				delete("/products/{id}", existingId)
+				.header("Authorization", "Bearer " + accessToken)
 				.accept(MediaType.APPLICATION_JSON)
 				);
 		
@@ -95,6 +109,7 @@ class ProductResourceTests {
 		
 		ResultActions result = mockMvc.perform(
 				delete("/products/{id}", dependentId)
+				.header("Authorization", "Bearer " + accessToken)
 				.accept(MediaType.APPLICATION_JSON)
 				);
 		
@@ -106,6 +121,7 @@ class ProductResourceTests {
 		
 		ResultActions result = mockMvc.perform(
 				delete("/products/{id}", nonExistingId)
+				.header("Authorization", "Bearer " + accessToken)
 				.accept(MediaType.APPLICATION_JSON)
 				);
 		
@@ -119,6 +135,7 @@ class ProductResourceTests {
 		
 		ResultActions result = mockMvc.perform(
 				post("/products")
+				.header("Authorization", "Bearer " + accessToken)
 				.content(jsonBody)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
@@ -138,6 +155,7 @@ class ProductResourceTests {
 		
 		ResultActions result = mockMvc.perform(
 				put("/products/{id}", existingId)
+				.header("Authorization", "Bearer " + accessToken)
 				.content(jsonBody)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
@@ -157,6 +175,7 @@ class ProductResourceTests {
 		
 		ResultActions result = mockMvc.perform(
 				put("/products/{id}", nonExistingId)
+				.header("Authorization", "Bearer " + accessToken)
 				.content(jsonBody)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
