@@ -61,7 +61,7 @@ class ProductServiceIT {
 
 		PageRequest pageRequest = PageRequest.of(0, 10);
 
-		Page<ProductDTO> result = service.findAllPaged(0L, null, pageRequest);
+		Page<ProductDTO> result = service.findAllPaged(0L, "", pageRequest);
 
 		Assertions.assertFalse(result.isEmpty());
 		Assertions.assertEquals(0, result.getNumber());
@@ -84,7 +84,7 @@ class ProductServiceIT {
 
 		PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("name"));
 
-		Page<ProductDTO> result = service.findAllPaged(0L, null, pageRequest);
+		Page<ProductDTO> result = service.findAllPaged(0L, "", pageRequest);
 
 		Assertions.assertFalse(result.isEmpty());
 		Assertions.assertEquals("Macbook Pro", result.getContent().get(0).getName());
