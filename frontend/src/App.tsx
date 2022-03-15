@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <h1>DS Catalog</h1>
+      <h1>Hello DS Catalog</h1>
     </>
   );
 }
