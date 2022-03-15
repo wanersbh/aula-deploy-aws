@@ -3,7 +3,7 @@
 }
 
 .main-nav {
-    height: 70px;
+    min-height: 70px;
     padding-left: 40px;
 }
 
